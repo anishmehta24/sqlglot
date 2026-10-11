@@ -1092,6 +1092,18 @@ class TestPresto(Validator):
             },
         )
         self.validate_all(
+            "SELECT SLICE(ARRAY[10, 20, 30, 40, 50], 3, 3)",
+            read={
+                "trino": "SELECT SLICE(ARRAY[10, 20, 30, 40, 50], 3, 3)",
+            },
+            write={
+                "duckdb": "SELECT ARRAY_SLICE([10, 20, 30, 40, 50], 3, 5)",
+                "presto": "SELECT SLICE(ARRAY[10, 20, 30, 40, 50], 3, 3)",
+                "spark": "SELECT SLICE(ARRAY(10, 20, 30, 40, 50), 3, 3)",
+                "trino": "SELECT SLICE(ARRAY[10, 20, 30, 40, 50], 3, 3)",
+            },
+        )
+        self.validate_all(
             "MAP(a, b)",
             write={
                 "hive": UnsupportedError,
